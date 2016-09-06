@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8" />
+      <title>EventBus</title>
+      <style>.markdown-preview:not([data-use-github-style]) { padding: 2em; font-size: 1.2em; color: rgb(171, 178, 191); overflow: auto; background-color: rgb(40, 44, 52); }
+.markdown-preview:not([data-use-github-style]) > :first-child { margin-top: 0px; }
+.markdown-preview:not([data-use-github-style]) h1, .markdown-preview:not([data-use-github-style]) h2, .markdown-preview:not([data-use-github-style]) h3, .markdown-preview:not([data-use-github-style]) h4, .markdown-preview:not([data-use-github-style]) h5, .markdown-preview:not([data-use-github-style]) h6 { line-height: 1.2; margin-top: 1.5em; margin-bottom: 0.5em; color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) h1 { font-size: 2.4em; font-weight: 300; }
+.markdown-preview:not([data-use-github-style]) h2 { font-size: 1.8em; font-weight: 400; }
+.markdown-preview:not([data-use-github-style]) h3 { font-size: 1.5em; font-weight: 500; }
+.markdown-preview:not([data-use-github-style]) h4 { font-size: 1.2em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h5 { font-size: 1.1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h6 { font-size: 1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) strong { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) del { color: rgb(124, 135, 156); }
+.markdown-preview:not([data-use-github-style]) a, .markdown-preview:not([data-use-github-style]) a code { color: rgb(82, 139, 255); }
+.markdown-preview:not([data-use-github-style]) img { max-width: 100%; }
+.markdown-preview:not([data-use-github-style]) > p { margin-top: 0px; margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) > ul, .markdown-preview:not([data-use-github-style]) > ol { margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) blockquote { margin: 1.5em 0px; font-size: inherit; color: rgb(124, 135, 156); border-color: rgb(75, 83, 98); border-width: 4px; }
+.markdown-preview:not([data-use-github-style]) hr { margin: 3em 0px; border-top-width: 2px; border-top-style: dashed; border-top-color: rgb(75, 83, 98); background: none; }
+.markdown-preview:not([data-use-github-style]) table { margin: 1.5em 0px; }
+.markdown-preview:not([data-use-github-style]) th { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) th, .markdown-preview:not([data-use-github-style]) td { padding: 0.66em 1em; border: 1px solid rgb(75, 83, 98); }
+.markdown-preview:not([data-use-github-style]) code { color: rgb(255, 255, 255); background-color: rgb(58, 63, 75); }
+.markdown-preview:not([data-use-github-style]) pre.editor-colors { margin: 1.5em 0px; padding: 1em; font-size: 0.92em; border-radius: 3px; background-color: rgb(49, 54, 63); }
+.markdown-preview:not([data-use-github-style]) kbd { color: rgb(255, 255, 255); border-width: 1px 1px 2px; border-style: solid; border-color: rgb(75, 83, 98) rgb(75, 83, 98) rgb(62, 68, 81); background-color: rgb(58, 63, 75); }
+.markdown-preview[data-use-github-style] { font-family: 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif; line-height: 1.6; word-wrap: break-word; padding: 30px; font-size: 16px; color: rgb(51, 51, 51); overflow: scroll; background-color: rgb(255, 255, 255); }
+.markdown-preview[data-use-github-style] > :first-child { margin-top: 0px !important; }
+.markdown-preview[data-use-github-style] > :last-child { margin-bottom: 0px !important; }
+.markdown-preview[data-use-github-style] a:not([href]) { color: inherit; text-decoration: none; }
+.markdown-preview[data-use-github-style] .absent { color: rgb(204, 0, 0); }
+.markdown-preview[data-use-github-style] .anchor { position: absolute; top: 0px; left: 0px; display: block; padding-right: 6px; padding-left: 30px; margin-left: -30px; }
+.markdown-preview[data-use-github-style] .anchor:focus { outline: none; }
+.markdown-preview[data-use-github-style] h1, .markdown-preview[data-use-github-style] h2, .markdown-preview[data-use-github-style] h3, .markdown-preview[data-use-github-style] h4, .markdown-preview[data-use-github-style] h5, .markdown-preview[data-use-github-style] h6 { position: relative; margin-top: 1em; margin-bottom: 16px; font-weight: bold; line-height: 1.4; }
+.markdown-preview[data-use-github-style] h1 .octicon-link, .markdown-preview[data-use-github-style] h2 .octicon-link, .markdown-preview[data-use-github-style] h3 .octicon-link, .markdown-preview[data-use-github-style] h4 .octicon-link, .markdown-preview[data-use-github-style] h5 .octicon-link, .markdown-preview[data-use-github-style] h6 .octicon-link { display: none; color: rgb(0, 0, 0); vertical-align: middle; }
+.markdown-preview[data-use-github-style] h1:hover .anchor, .markdown-preview[data-use-github-style] h2:hover .anchor, .markdown-preview[data-use-github-style] h3:hover .anchor, .markdown-preview[data-use-github-style] h4:hover .anchor, .markdown-preview[data-use-github-style] h5:hover .anchor, .markdown-preview[data-use-github-style] h6:hover .anchor { padding-left: 8px; margin-left: -30px; text-decoration: none; }
+.markdown-preview[data-use-github-style] h1:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h2:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h3:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h4:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h5:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h6:hover .anchor .octicon-link { display: inline-block; }
+.markdown-preview[data-use-github-style] h1 tt, .markdown-preview[data-use-github-style] h2 tt, .markdown-preview[data-use-github-style] h3 tt, .markdown-preview[data-use-github-style] h4 tt, .markdown-preview[data-use-github-style] h5 tt, .markdown-preview[data-use-github-style] h6 tt, .markdown-preview[data-use-github-style] h1 code, .markdown-preview[data-use-github-style] h2 code, .markdown-preview[data-use-github-style] h3 code, .markdown-preview[data-use-github-style] h4 code, .markdown-preview[data-use-github-style] h5 code, .markdown-preview[data-use-github-style] h6 code { font-size: inherit; }
+.markdown-preview[data-use-github-style] h1 { padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h1 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h2 { padding-bottom: 0.3em; font-size: 1.75em; line-height: 1.225; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h2 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h3 { font-size: 1.5em; line-height: 1.43; }
+.markdown-preview[data-use-github-style] h3 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h4 { font-size: 1.25em; }
+.markdown-preview[data-use-github-style] h4 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h5 { font-size: 1em; }
+.markdown-preview[data-use-github-style] h5 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] h6 { font-size: 1em; color: rgb(119, 119, 119); }
+.markdown-preview[data-use-github-style] h6 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] p, .markdown-preview[data-use-github-style] blockquote, .markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol, .markdown-preview[data-use-github-style] dl, .markdown-preview[data-use-github-style] table, .markdown-preview[data-use-github-style] pre { margin-top: 0px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] hr { height: 4px; padding: 0px; margin: 16px 0px; border: 0px none; background-color: rgb(231, 231, 231); }
+.markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol { padding-left: 2em; }
+.markdown-preview[data-use-github-style] ul.no-list, .markdown-preview[data-use-github-style] ol.no-list { padding: 0px; list-style-type: none; }
+.markdown-preview[data-use-github-style] ul ul, .markdown-preview[data-use-github-style] ul ol, .markdown-preview[data-use-github-style] ol ol, .markdown-preview[data-use-github-style] ol ul { margin-top: 0px; margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] li > p { margin-top: 16px; }
+.markdown-preview[data-use-github-style] dl { padding: 0px; }
+.markdown-preview[data-use-github-style] dl dt { padding: 0px; margin-top: 16px; font-size: 1em; font-style: italic; font-weight: bold; }
+.markdown-preview[data-use-github-style] dl dd { padding: 0px 16px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] blockquote { padding: 0px 15px; color: rgb(119, 119, 119); border-left-width: 4px; border-left-style: solid; border-left-color: rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] blockquote > :first-child { margin-top: 0px; }
+.markdown-preview[data-use-github-style] blockquote > :last-child { margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] table { display: block; width: 100%; overflow: auto; word-break: keep-all; }
+.markdown-preview[data-use-github-style] table th { font-weight: bold; }
+.markdown-preview[data-use-github-style] table th, .markdown-preview[data-use-github-style] table td { padding: 6px 13px; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] table tr { border-top-width: 1px; border-top-style: solid; border-top-color: rgb(204, 204, 204); background-color: rgb(255, 255, 255); }
+.markdown-preview[data-use-github-style] table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+.markdown-preview[data-use-github-style] img { max-width: 100%; box-sizing: border-box; }
+.markdown-preview[data-use-github-style] .emoji { max-width: none; }
+.markdown-preview[data-use-github-style] span.frame { display: block; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.frame > span { display: block; float: left; width: auto; padding: 7px; margin: 13px 0px 0px; overflow: hidden; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] span.frame span img { display: block; float: left; }
+.markdown-preview[data-use-github-style] span.frame span span { display: block; padding: 5px 0px 0px; clear: both; color: rgb(51, 51, 51); }
+.markdown-preview[data-use-github-style] span.align-center { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-center > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-center span img { margin: 0px auto; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-right { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-right > span { display: block; margin: 13px 0px 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] span.align-right span img { margin: 0px; text-align: right; }
+.markdown-preview[data-use-github-style] span.float-left { display: block; float: left; margin-right: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-left span { margin: 13px 0px 0px; }
+.markdown-preview[data-use-github-style] span.float-right { display: block; float: right; margin-left: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-right > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] code, .markdown-preview[data-use-github-style] tt { padding: 0.2em 0px; margin: 0px; font-size: 85%; border-radius: 3px; background-color: rgba(0, 0, 0, 0.0392157); }
+.markdown-preview[data-use-github-style] code::before, .markdown-preview[data-use-github-style] tt::before, .markdown-preview[data-use-github-style] code::after, .markdown-preview[data-use-github-style] tt::after { letter-spacing: -0.2em; content: " "; }
+.markdown-preview[data-use-github-style] code br, .markdown-preview[data-use-github-style] tt br { display: none; }
+.markdown-preview[data-use-github-style] del code { text-decoration: inherit; }
+.markdown-preview[data-use-github-style] pre > code { padding: 0px; margin: 0px; font-size: 100%; word-break: normal; white-space: pre; border: 0px; background: transparent; }
+.markdown-preview[data-use-github-style] .highlight { margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] .highlight pre, .markdown-preview[data-use-github-style] pre { padding: 16px; overflow: auto; font-size: 85%; line-height: 1.45; border-radius: 3px; background-color: rgb(247, 247, 247); }
+.markdown-preview[data-use-github-style] .highlight pre { margin-bottom: 0px; word-break: normal; }
+.markdown-preview[data-use-github-style] pre { word-wrap: normal; }
+.markdown-preview[data-use-github-style] pre code, .markdown-preview[data-use-github-style] pre tt { display: inline; max-width: initial; padding: 0px; margin: 0px; overflow: initial; line-height: inherit; word-wrap: normal; border: 0px; background-color: transparent; }
+.markdown-preview[data-use-github-style] pre code::before, .markdown-preview[data-use-github-style] pre tt::before, .markdown-preview[data-use-github-style] pre code::after, .markdown-preview[data-use-github-style] pre tt::after { content: normal; }
+.markdown-preview[data-use-github-style] kbd { display: inline-block; padding: 3px 5px; font-size: 11px; line-height: 10px; color: rgb(85, 85, 85); vertical-align: middle; border-style: solid; border-width: 1px; border-color: rgb(204, 204, 204) rgb(204, 204, 204) rgb(187, 187, 187); border-radius: 3px; box-shadow: rgb(187, 187, 187) 0px -1px 0px inset; background-color: rgb(252, 252, 252); }
+.markdown-preview[data-use-github-style] a { color: rgb(51, 122, 183); }
+.markdown-preview[data-use-github-style] code { color: inherit; }
+.markdown-preview[data-use-github-style] pre.editor-colors { padding: 0.8em 1em; margin-bottom: 1em; font-size: 0.85em; border-radius: 4px; overflow: auto; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors::shadow .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors::shadow .horizontal-scrollbar { visibility: hidden; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors:hover::shadow .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors:hover::shadow .horizontal-scrollbar { visibility: visible; }
+.bracket-matcher .region {
+  border-bottom: 1px dotted lime;
+  position: absolute;
+}
+
+.spell-check-misspelling .region {
+  border-bottom: 2px dotted rgba(255, 51, 51, 0.75);
+}
+
+pre.editor-colors,
+.host {
+  background-color: #282c34;
+  color: #abb2bf;
+}
+pre.editor-colors .line.cursor-line,
+.host .line.cursor-line {
+  background-color: rgba(153, 187, 255, 0.04);
+}
+pre.editor-colors .invisible,
+.host .invisible {
+  color: #abb2bf;
+}
+pre.editor-colors .cursor,
+.host .cursor {
+  border-left: 2px solid #528bff;
+}
+pre.editor-colors .selection .region,
+.host .selection .region {
+  background-color: #3e4451;
+}
+pre.editor-colors .bracket-matcher .region,
+.host .bracket-matcher .region {
+  border-bottom: 1px solid #528bff;
+  box-sizing: border-box;
+}
+pre.editor-colors .invisible-character,
+.host .invisible-character {
+  color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .indent-guide,
+.host .indent-guide {
+  color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .wrap-guide,
+.host .wrap-guide {
+  background-color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .gutter .line-number,
+.host .gutter .line-number {
+  color: #636d83;
+  -webkit-font-smoothing: antialiased;
+}
+pre.editor-colors .gutter .line-number.cursor-line,
+.host .gutter .line-number.cursor-line {
+  color: #abb2bf;
+  background-color: #2c313a;
+}
+pre.editor-colors .gutter .line-number.cursor-line-no-selection,
+.host .gutter .line-number.cursor-line-no-selection {
+  background-color: transparent;
+}
+pre.editor-colors .gutter .line-number .icon-right,
+.host .gutter .line-number .icon-right {
+  color: #abb2bf;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed.git-line-removed::before,
+.host .gutter:not(.git-diff-icon) .line-number.git-line-removed.git-line-removed::before {
+  bottom: -3px;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed::after,
+.host .gutter:not(.git-diff-icon) .line-number.git-line-removed::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 25px;
+  border-bottom: 1px dotted rgba(224, 82, 82, 0.5);
+  pointer-events: none;
+}
+pre.editor-colors .gutter .line-number.folded,
+.host .gutter .line-number.folded,
+pre.editor-colors .gutter .line-number:after,
+.host .gutter .line-number:after,
+pre.editor-colors .fold-marker:after,
+.host .fold-marker:after {
+  color: #abb2bf;
+}
+.comment {
+  color: #5c6370;
+  font-style: italic;
+}
+.comment .markup.link {
+  color: #5c6370;
+}
+.entity.name.type {
+  color: #e5c07b;
+}
+.entity.other.inherited-class {
+  color: #98c379;
+}
+.keyword {
+  color: #c678dd;
+}
+.keyword.control {
+  color: #c678dd;
+}
+.keyword.operator {
+  color: #abb2bf;
+}
+.keyword.other.special-method {
+  color: #61afef;
+}
+.keyword.other.unit {
+  color: #d19a66;
+}
+.storage {
+  color: #c678dd;
+}
+.storage.type.annotation,
+.storage.type.primitive {
+  color: #c678dd;
+}
+.storage.modifier.package,
+.storage.modifier.import {
+  color: #abb2bf;
+}
+.constant {
+  color: #d19a66;
+}
+.constant.variable {
+  color: #d19a66;
+}
+.constant.character.escape {
+  color: #56b6c2;
+}
+.constant.numeric {
+  color: #d19a66;
+}
+.constant.other.color {
+  color: #56b6c2;
+}
+.constant.other.symbol {
+  color: #56b6c2;
+}
+.variable {
+  color: #e06c75;
+}
+.variable.interpolation {
+  color: #be5046;
+}
+.variable.parameter {
+  color: #abb2bf;
+}
+.string {
+  color: #98c379;
+}
+.string.regexp {
+  color: #56b6c2;
+}
+.string.regexp .source.ruby.embedded {
+  color: #e5c07b;
+}
+.string.other.link {
+  color: #e06c75;
+}
+.punctuation.definition.comment {
+  color: #5c6370;
+}
+.punctuation.definition.method-parameters,
+.punctuation.definition.function-parameters,
+.punctuation.definition.parameters,
+.punctuation.definition.separator,
+.punctuation.definition.seperator,
+.punctuation.definition.array {
+  color: #abb2bf;
+}
+.punctuation.definition.heading,
+.punctuation.definition.identity {
+  color: #61afef;
+}
+.punctuation.definition.bold {
+  color: #e5c07b;
+  font-weight: bold;
+}
+.punctuation.definition.italic {
+  color: #c678dd;
+  font-style: italic;
+}
+.punctuation.section.embedded {
+  color: #be5046;
+}
+.punctuation.section.method,
+.punctuation.section.class,
+.punctuation.section.inner-class {
+  color: #abb2bf;
+}
+.support.class {
+  color: #e5c07b;
+}
+.support.type {
+  color: #56b6c2;
+}
+.support.function {
+  color: #56b6c2;
+}
+.support.function.any-method {
+  color: #61afef;
+}
+.entity.name.function {
+  color: #61afef;
+}
+.entity.name.class,
+.entity.name.type.class {
+  color: #e5c07b;
+}
+.entity.name.section {
+  color: #61afef;
+}
+.entity.name.tag {
+  color: #e06c75;
+}
+.entity.other.attribute-name {
+  color: #d19a66;
+}
+.entity.other.attribute-name.id {
+  color: #61afef;
+}
+.meta.class {
+  color: #e5c07b;
+}
+.meta.class.body {
+  color: #abb2bf;
+}
+.meta.method-call,
+.meta.method {
+  color: #abb2bf;
+}
+.meta.definition.variable {
+  color: #e06c75;
+}
+.meta.link {
+  color: #d19a66;
+}
+.meta.require {
+  color: #61afef;
+}
+.meta.selector {
+  color: #c678dd;
+}
+.meta.separator {
+  background-color: #373b41;
+  color: #abb2bf;
+}
+.meta.tag {
+  color: #abb2bf;
+}
+.underline {
+  text-decoration: underline;
+}
+.none {
+  color: #abb2bf;
+}
+.invalid.deprecated {
+  color: #523d14 !important;
+  background-color: #e0c285 !important;
+}
+.invalid.illegal {
+  color: #ffffff !important;
+  background-color: #e05252 !important;
+}
+.markup.bold {
+  color: #d19a66;
+  font-weight: bold;
+}
+.markup.changed {
+  color: #c678dd;
+}
+.markup.deleted {
+  color: #e06c75;
+}
+.markup.italic {
+  color: #c678dd;
+  font-style: italic;
+}
+.markup.heading {
+  color: #e06c75;
+}
+.markup.heading .punctuation.definition.heading {
+  color: #61afef;
+}
+.markup.link {
+  color: #c678dd;
+}
+.markup.inserted {
+  color: #98c379;
+}
+.markup.quote {
+  color: #d19a66;
+}
+.markup.raw {
+  color: #98c379;
+}
+.source.cs .keyword.operator {
+  color: #c678dd;
+}
+.source.css .property-name,
+.source.css .property-value {
+  color: #828997;
+}
+.source.css .property-name.support,
+.source.css .property-value.support {
+  color: #abb2bf;
+}
+.source.gfm .markup {
+  -webkit-font-smoothing: auto;
+}
+.source.gfm .link .entity {
+  color: #61afef;
+}
+.source.ini .keyword.other.definition.ini {
+  color: #e06c75;
+}
+.source.java .storage.modifier.import {
+  color: #e5c07b;
+}
+.source.java .storage.type {
+  color: #e5c07b;
+}
+.source.java-properties .meta.key-pair {
+  color: #e06c75;
+}
+.source.java-properties .meta.key-pair > .punctuation {
+  color: #abb2bf;
+}
+.source.js .keyword.operator {
+  color: #56b6c2;
+}
+.source.js .keyword.operator.delete,
+.source.js .keyword.operator.in,
+.source.js .keyword.operator.of,
+.source.js .keyword.operator.instanceof,
+.source.js .keyword.operator.new,
+.source.js .keyword.operator.typeof,
+.source.js .keyword.operator.void {
+  color: #c678dd;
+}
+.source.json .meta.structure.dictionary.json > .string.quoted.json {
+  color: #e06c75;
+}
+.source.json .meta.structure.dictionary.json > .string.quoted.json > .punctuation.string {
+  color: #e06c75;
+}
+.source.json .meta.structure.dictionary.json > .value.json > .string.quoted.json,
+.source.json .meta.structure.array.json > .value.json > .string.quoted.json,
+.source.json .meta.structure.dictionary.json > .value.json > .string.quoted.json > .punctuation,
+.source.json .meta.structure.array.json > .value.json > .string.quoted.json > .punctuation {
+  color: #98c379;
+}
+.source.json .meta.structure.dictionary.json > .constant.language.json,
+.source.json .meta.structure.array.json > .constant.language.json {
+  color: #56b6c2;
+}
+.source.ruby .constant.other.symbol > .punctuation {
+  color: inherit;
+}
+.source.python .keyword.operator.logical.python {
+  color: #c678dd;
+}
+.source.python .variable.parameter {
+  color: #d19a66;
+}
+</style>
+  </head>
+  <body class='markdown-preview' data-use-github-style><h4 id="-">写代码遇到的问题</h4>
+<ol>
+<li><p>Actvity中,多个Fragment嵌套, 需要监听嵌套的Fragment中的内容变化, 如下图
+<img src="E:\simon_note\NestMessage.png" alt=""></p>
+<p>FragmentA需要监听NestFragment中view的变化</p>
+</li>
+<li><p>数据预加载, 首页有大量数据需要请求网络, 而欢迎界面有1s停顿, 需要把首页发送的网络请求,提前到欢迎界面发送, 但要版本首页能收到请求数据后的回调</p>
+</li>
+<li><p>app架构上, 数据层和和视图层解耦</p>
+</li>
+</ol>
+<h4 id="-eventbus-">什么是EventBus?</h4>
+<p>本文的EventBus,是指greenrobot的 <a href="https://github.com/greenrobot/EventBus">EventBus</a>, 主要以EventBus3.0 讲解;
+EventBus事件总线, 用于简化Android程序内,各个组件,线程之间的事件传递;  订阅发布模式,将事件的接收者和发布者解耦,一旦publisher发出消息,subscribe自己按需改变; 我个人喜欢把它拿来和BroadCast比较;
+  整个流程示意图如下
+<img src="E:\simon_note\EventBus-Publish-Subscribe.png" alt=""></p>
+<p>Publisher: 事件发送者,事件产生的地方
+Subscriber: 事件接收者, 接收处理事件的地方
+每个Publisher发送事件, 通过EventBus把事件分发到各个Subscriber, 同时Pulisher和Subscriber之间保持透明<br>整个流程很广播类似, Publisher发送事件,就类似我们发送一个广播, 在接收广播的地方,注册一下, 我们就可以接收广播发出来的事件, 然后就可以处理; Subscriber就类似广播处理器;</p>
+<h4 id="-">使用场景</h4>
+<ol>
+<li>复杂逻辑下的对象传递</li>
+<li>函数的调用者与被调用者需要低耦合,或者框架设计之初,无法预料到的调用</li>
+</ol>
+<p>eg. 上面的使用场景,在我们代码中时长出现的场景就是,监听器的传递,回调函数和各种Listener;<br>比如,在一个activity中,又2个fragment,而每个fragment中又各嵌套一个子fragment, 其中一个子fragment要监听另一个子fragment中的按钮变化; 一般做法是将listener作为函数参数传递, 或者设置为静态变量;
+第二个, 就和BoardCast相似</p>
+<h4 id="-">怎么使用</h4>
+<ol>
+<li><p>在gradle中添加依赖</p>
+<pre class="editor-colors lang-text"><div class="line"><span class="text plain"><span class="meta paragraph text"><span>dependencies&nbsp;{</span></span></span></div><div class="line"><span class="text plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="meta paragraph text"><span>compile&nbsp;&#39;org.greenrobot:eventbus:3.0.0&#39;</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>}</span></span></span></div></pre></li>
+<li><p>注册和取消注册
+在要接收消息的类中<code>register</code> <code>unregister</code>, 和广播的注册类似, 一般在activity的 onCreate 和 onDestory 方法中进行</p>
+<pre class="editor-colors lang-java"><div class="line"><span class="source java"><span class="variable other object java"><span>EventBus</span></span><span class="meta method-call java"><span class="punctuation separator period java"><span>.</span></span><span class="entity name function java"><span>getDefault</span></span><span class="punctuation definition parameters begin bracket round java"><span>(</span></span><span class="punctuation definition parameters end bracket round java"><span>)</span></span><span class="punctuation separator period java"><span>.</span></span><span class="entity name function java"><span>register</span></span><span class="punctuation definition parameters begin bracket round java"><span>(</span></span><span>&nbsp;</span><span class="variable language this java"><span>this</span></span><span>&nbsp;</span><span class="punctuation definition parameters end bracket round java"><span>)</span></span></span><span class="punctuation terminator java"><span>;</span></span></span></div><div class="line"><span class="source java"><span class="variable other object java"><span>EventBus</span></span><span class="meta method-call java"><span class="punctuation separator period java"><span>.</span></span><span class="entity name function java"><span>getDefault</span></span><span class="punctuation definition parameters begin bracket round java"><span>(</span></span><span class="punctuation definition parameters end bracket round java"><span>)</span></span><span class="punctuation separator period java"><span>.</span></span><span class="entity name function java"><span>unregister</span></span><span class="punctuation definition parameters begin bracket round java"><span>(</span></span><span>&nbsp;</span><span class="variable language this java"><span>this</span></span><span>&nbsp;</span><span class="punctuation definition parameters end bracket round java"><span>)</span></span></span><span class="punctuation terminator java"><span>;</span></span></span></div></pre>
+</li>
+</ol>
+<ol>
+<li>申明处理消息的函数;
+在接收消息的函数上,加上<code>@Subscribe</code>, EventBus是按函数参数的类型确认消息的接收者的, 此函数只能有且仅有一个参数;</li>
+</ol>
+<pre class="editor-colors lang-java"><div class="line"><span class="source java"><span class="meta declaration annotation java"><span class="storage type annotation java"><span>@Subscribe</span></span><span class="punctuation definition annotation-arguments begin bracket round java"><span>(</span></span><span class="constant other key java"><span>threadMode</span></span><span>&nbsp;</span><span class="keyword operator assignment java"><span>=</span></span><span>&nbsp;</span><span class="variable other object java"><span>ThreadMode</span></span><span class="punctuation separator period java"><span>.</span></span><span class="variable other property java"><span>MAIN</span></span><span class="punctuation separator delimiter java"><span>,</span></span><span>&nbsp;</span><span class="constant other key java"><span>priority</span></span><span>&nbsp;</span><span class="keyword operator assignment java"><span>=</span></span><span>&nbsp;</span><span class="constant numeric java"><span>1</span></span><span class="punctuation separator delimiter java"><span>,</span></span><span>&nbsp;</span><span class="constant other key java"><span>sticky</span></span><span>&nbsp;</span><span class="keyword operator assignment java"><span>=</span></span><span>&nbsp;</span><span class="constant language java"><span>false</span></span><span class="punctuation definition annotation-arguments end bracket round java"><span>)</span></span></span></span></div><div class="line"><span class="source java"><span class="storage modifier java"><span>public</span></span><span>&nbsp;</span><span class="storage type primitive java"><span>void</span></span><span>&nbsp;</span><span class="meta function-call java"><span class="entity name function java"><span>onEvent</span></span><span class="punctuation definition parameters begin bracket round java"><span>(</span></span><span>&nbsp;</span><span class="storage type java"><span>TestEvent</span></span><span>&nbsp;&nbsp;testEvent&nbsp;</span><span class="punctuation definition parameters end bracket round java"><span>)</span></span></span><span class="punctuation section block begin bracket curly java"><span>{</span></span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span></div><div class="line"><span class="source java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="variable other object java"><span>Log</span></span><span class="meta method-call java"><span class="punctuation separator period java"><span>.</span></span><span class="entity name function java"><span>e</span></span><span class="punctuation definition parameters begin bracket round java"><span>(</span></span><span>&nbsp;</span><span class="string quoted double java"><span class="punctuation definition string begin java"><span>&quot;</span></span><span>zy</span><span class="punctuation definition string end java"><span>&quot;</span></span></span><span class="punctuation separator delimiter java"><span>,</span></span><span>&nbsp;</span><span class="string quoted double java"><span class="punctuation definition string begin java"><span>&quot;</span></span><span>&gt;&gt;&gt;&gt;&nbsp;receiverEvent</span><span class="punctuation definition string end java"><span>&quot;</span></span></span><span class="punctuation definition parameters end bracket round java"><span>)</span></span></span><span class="punctuation terminator java"><span>;</span></span></span></div><div class="line"><span class="source java"><span class="punctuation section block end bracket curly java"><span>}</span></span></span></div></pre>
+<p>只需要在函数上加上 <code>@Subscribe</code> 注解即可, 此注解还可以带上额外的参数</p>
+<ul>
+<li><p><code>threadMode</code> ,  用于指定此函数运行的线程, 是一个Enum, 有4个常量,  <code>MAIN</code> <code>BACKGROUND</code> <code>ASYNC</code> <code>POSTING</code>, 默认为<code>POSTING</code>
+<code>ThreadMode.MAIN</code>  在主线程中运行
+<code>ThreadMode.POSTING</code>  跟消息发送者在同一线程运行
+<code>ThreadMode.BACKGROUND</code> 后台线程, 如果发送消息的线程就是后台线程,就直接执行; 如果不是, 则会把消息放在队列中,依次执行
+<code>ThreadMode.ASYNC</code>  后台线程, 消息会在单独的线程中执行,用了线程池,多个消息会同时执行</p>
+</li>
+<li><p><code>priority</code> 优先级, 值越小优先级越低,当有多个方法处理同一个消息时,处理的顺序,默认为0</p>
+</li>
+<li><p><code>sticky</code> 是否接收黏性消息, 和黏性广播相同, 默认为false</p>
+</li>
+<li><p>发送消息
+所谓的消息,就只是一个java对象, 发送消息就是把这个对象,传递给处理消息的函数; EventBus消息和EventBus的对象实例有关, 用一个EventBus对象发送的消息,必须是用同一个EventBus对象注册的才能收到消息.</p>
+<pre class="editor-colors lang-java"><div class="line"><span class="source java"><span class="comment line double-slash java"><span class="punctuation definition comment java"><span>//</span></span><span>&nbsp;发送黏性消息</span><span>&nbsp;</span></span></span></div><div class="line"><span class="source java"><span class="variable other object java"><span>EventBus</span></span><span class="meta method-call java"><span class="punctuation separator period java"><span>.</span></span><span class="entity name function java"><span>getDefault</span></span><span class="punctuation definition parameters begin bracket round java"><span>(</span></span><span class="punctuation definition parameters end bracket round java"><span>)</span></span><span class="punctuation separator period java"><span>.</span></span><span class="entity name function java"><span>postSticky</span></span><span class="punctuation definition parameters begin bracket round java"><span>(</span></span><span>&nbsp;</span><span class="keyword control new java"><span>new</span></span><span>&nbsp;</span><span class="storage type java"><span>TestEvent</span></span><span class="punctuation bracket round java"><span>(</span><span>)</span></span><span>&nbsp;</span><span class="punctuation definition parameters end bracket round java"><span>)</span></span></span><span class="punctuation terminator java"><span>;</span></span></span></div><div class="line"><span class="source java"><span class="comment line double-slash java"><span class="punctuation definition comment java"><span>//</span></span><span>&nbsp;发送普通的消息</span><span>&nbsp;</span></span></span></div><div class="line"><span class="source java"><span class="variable other object java"><span>EventBus</span></span><span class="meta method-call java"><span class="punctuation separator period java"><span>.</span></span><span class="entity name function java"><span>getDefault</span></span><span class="punctuation definition parameters begin bracket round java"><span>(</span></span><span class="punctuation definition parameters end bracket round java"><span>)</span></span><span class="punctuation separator period java"><span>.</span></span><span class="entity name function java"><span>post</span></span><span class="punctuation definition parameters begin bracket round java"><span>(</span></span><span>&nbsp;</span><span class="keyword control new java"><span>new</span></span><span>&nbsp;</span><span class="storage type java"><span>TestEvent</span></span><span class="punctuation bracket round java"><span>(</span><span>)</span></span><span>&nbsp;</span><span class="punctuation definition parameters end bracket round java"><span>)</span></span></span><span class="punctuation terminator java"><span>;</span></span></span></div></pre>
+<p>发送的消息有2种,
+<code>sticky</code>黏性消息, 当消息发送出去之后,如果没有消息接收者处理这个消息,此消息会暂时存储在eventBus实例中, 当后面注册接受者时,如果合适的处理者, 将会把消息给处理者去处理;我个人喜欢用这个来做数据的预加载;</p>
+</li>
+<li><p>提升性能, 增加编译时注解处理
+ 由于android机器本身性能有限,一般不建议使用运行时注解,EventBus的注解声明为Runtime, 但它同时支持编译时注解和运行时注解, 当没配置编译时注解处理器时, 会自动通过反射查找运行时的注解;</p>
+<ol>
+<li>添加注解处理器依赖<pre class="editor-colors lang-java"><div class="line"><span class="source java"><span>buildscript&nbsp;</span><span class="punctuation section block begin bracket curly java"><span>{</span></span></span></div><div class="line"><span class="source java"><span class="punctuation separator period java"><span>.</span><span>.</span><span>.</span></span></span></div><div class="line"><span class="source java"><span>dependencies&nbsp;</span><span class="punctuation section block begin bracket curly java"><span>{</span></span></span></div><div class="line"><span class="source java"><span>&nbsp;&nbsp;&nbsp;classpath&nbsp;</span><span class="string quoted single java"><span class="punctuation definition string begin java"><span>&#39;</span></span><span>com.android.tools.build:gradle:2.1.0</span><span class="punctuation definition string end java"><span>&#39;</span></span></span></span></div><div class="line"><span class="source java"><span class="punctuation whitespace comment leading java"><span>&nbsp;&nbsp;&nbsp;</span></span><span class="comment line double-slash java"><span class="punctuation definition comment java"><span>//</span></span><span>&nbsp;在最外层添加gradle的插件依赖</span><span>&nbsp;</span></span></span></div><div class="line"><span class="source java"><span>&nbsp;&nbsp;&nbsp;classpath&nbsp;</span><span class="string quoted single java"><span class="punctuation definition string begin java"><span>&#39;</span></span><span>com.neenbedankt.gradle.plugins:android-apt:1.4</span><span class="punctuation definition string end java"><span>&#39;</span></span></span></span></div><div class="line"><span class="source java"><span class="punctuation section block end bracket curly java"><span>}</span></span></span></div><div class="line"><span class="source java"><span class="punctuation separator period java"><span>.</span><span>.</span><span>.</span></span></span></div><div class="line"><span class="source java"><span class="punctuation section block end bracket curly java"><span>}</span></span></span></div><div class="line"><span class="source java"><span class="comment line double-slash java"><span class="punctuation definition comment java"><span>//</span></span><span>&nbsp;项目中&nbsp;增加注解处理器插件</span><span>&nbsp;</span></span></span></div><div class="line"><span class="source java"><span>apply&nbsp;plugin</span><span class="keyword control ternary java"><span>:</span></span><span>&nbsp;</span><span class="string quoted single java"><span class="punctuation definition string begin java"><span>&#39;</span></span><span>com.neenbedankt.android-apt</span><span class="punctuation definition string end java"><span>&#39;</span></span></span></span></div><div class="line"><span class="source java"><span>dependencies&nbsp;</span><span class="punctuation section block begin bracket curly java"><span>{</span></span></span></div><div class="line"><span class="source java"><span>compile&nbsp;</span><span class="string quoted single java"><span class="punctuation definition string begin java"><span>&#39;</span></span><span>org.greenrobot:eventbus:3.0.0</span><span class="punctuation definition string end java"><span>&#39;</span></span></span></span></div><div class="line"><span class="source java"><span class="comment line double-slash java"><span class="punctuation definition comment java"><span>//</span></span><span>&nbsp;添加注解处理器</span><span>&nbsp;</span></span></span></div><div class="line"><span class="source java"><span>apt&nbsp;</span><span class="string quoted single java"><span class="punctuation definition string begin java"><span>&#39;</span></span><span>org.greenrobot:eventbus-annotation-processor:3.0.1</span><span class="punctuation definition string end java"><span>&#39;</span></span></span></span></div><div class="line"><span class="source java"><span class="punctuation section block end bracket curly java"><span>}</span></span></span></div><div class="line"><span class="source java"><span>apt&nbsp;</span><span class="punctuation section block begin bracket curly java"><span>{</span></span></span></div><div class="line"><span class="source java"><span>arguments&nbsp;</span><span class="punctuation section block begin bracket curly java"><span>{</span></span></span></div><div class="line"><span class="source java"><span class="punctuation whitespace comment leading java"><span>&nbsp;</span></span><span class="comment line double-slash java"><span class="punctuation definition comment java"><span>//</span></span><span>&nbsp;注解处理器&nbsp;最终生成的java文件位置</span><span>&nbsp;</span></span></span></div><div class="line"><span class="source java"><span>&nbsp;eventBusIndex&nbsp;</span><span class="string quoted double java"><span class="punctuation definition string begin java"><span>&quot;</span></span><span>com.zy.test.MyEventBusIndex</span><span class="punctuation definition string end java"><span>&quot;</span></span></span></span></div><div class="line"><span class="source java"><span class="punctuation section block end bracket curly java"><span>}</span></span></span></div><div class="line"><span class="source java"><span class="punctuation section block end bracket curly java"><span>}</span></span></span></div></pre>
+</li>
+<li>初始化EventBus时, 使用注解处理器生成的类文件<pre class="editor-colors lang-java"><div class="line"><span class="source java"><span>mEventBus&nbsp;</span><span class="keyword operator assignment java"><span>=</span></span><span>&nbsp;</span><span class="variable other object java"><span>EventBus</span></span><span class="meta method-call java"><span class="punctuation separator period java"><span>.</span></span><span class="entity name function java"><span>builder</span></span><span class="punctuation definition parameters begin bracket round java"><span>(</span></span><span class="punctuation definition parameters end bracket round java"><span>)</span></span><span class="punctuation separator period java"><span>.</span></span><span class="entity name function java"><span>addIndex</span></span><span class="punctuation definition parameters begin bracket round java"><span>(</span></span><span>&nbsp;</span><span class="keyword control new java"><span>new</span></span><span>&nbsp;</span><span class="storage type java"><span>MyEventBusIndex</span></span><span class="punctuation bracket round java"><span>(</span><span>)</span></span><span>&nbsp;</span><span class="punctuation definition parameters end bracket round java"><span>)</span></span><span class="punctuation separator period java"><span>.</span></span><span class="entity name function java"><span>build</span></span><span class="punctuation definition parameters begin bracket round java"><span>(</span></span><span class="punctuation definition parameters end bracket round java"><span>)</span></span></span><span class="punctuation terminator java"><span>;</span></span></span></div></pre>
+EventBus的消息和EventBus实例有关系, 自己配置的EventBus实例,一般需要用单例保存, 确保发送和接收消息的地方,使用的是同一个实例</li>
+</ol>
+</li>
+</ul>
+<h4 id="-">关于其他的一些细节</h4>
+<ul>
+<li><p>消息处理者的继承<br> EventBus的消息处理者,是可以继承的, 父类中的消息处理器, 在子类中仍可使用; 这是一个比较好的功能, 比如通用的消息接收处理,我们在BaseActivity中声明一次, 子类都可以使用了; 此功能可以关闭, 在构建Eventbus实例时, 调用 <code>EventBus.builder().eventInheritance( false )</code> ; 官方的说法是关闭后可以提供20%的性能;</p>
+</li>
+<li><p>黏性消息<br> 非常实用的功能, 我一般用来做预加载数据; 每种消息类型,最多存储一个黏性消息, 和黏性广播类似; 消息处理者. 声明为<code>sticky = true</code>, 依然可以接收普通消息</p>
+</li>
+<li><p>进程间的通讯<br> Eventbus的发送消息和消息处理是和Eventbus实例有关的, 是无法跨进程传递消息的; 如果涉及到进程间通讯, 还是要使用android系统的接口</p>
+</li>
+</ul>
+<h4 id="-">对比</h4>
+<ol>
+<li>Boardcast<br>优点: 可以指定运行线程, 消息处理可继承, 代码简单, 消息处理可继承, 低延迟, 对消息数据无要求(不需要实现Parcelable或者Serializable接口)
+缺点: 无法跨进程</li>
+<li>LocalBroadcastManager<br>   这个除了广播的低延迟外, Boardcast的缺点都有, 并且它还不能不能跨进程, 没有黏性广播</li>
+<li>RxBus<br> RxBus并不是指某个框架, 泛指用Rxjava实现的,类似EventBus的功能; 一般使用PublishSubject 构建Rx对象, 使用ofType按区分事件类型
+ 相比起来, Eventbus上手简单, 可继承, 有黏性事件;
+ 而Rx可以有统一的异常处理, 可以对消息数据进行变换处理,但由于有RxJava本身的学习难度,不易上手</li>
+</ol>
+<h4 id="-">源码初探</h4>
+<p>EventBus的源码不多, 这里只讲一下大概, 具体细节大家自己去读源码
+源码版本( 66ead83 )</p>
+<ol>
+<li>EventBus.java
+此类对外提供所有的接口,<code>register</code>, <code>unregister</code>, <code>post</code>;
+提供一个默认的单例对象, 通过<code>getDefault()</code>获取;
+核心的变量如下<pre class="editor-colors lang-text"><div class="line"><span class="text plain"><span class="meta paragraph text"><span>/**&nbsp;eventType和消息接收者存储的map,&nbsp;key是event的class,&nbsp;value是接收者的信息,&nbsp;Subscription中包含的接收消息的对象,&nbsp;处理消息的方法&nbsp;*/</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>private&nbsp;final&nbsp;Map&lt;Class&lt;?&gt;,&nbsp;CopyOnWriteArrayList&lt;Subscription&gt;&gt;&nbsp;subscriptionsByEventType;</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>/**&nbsp;消息处理者和其所包含的能处理的event的Map,&nbsp;key为消息处理者的实例,&nbsp;value为其所能处理的event的类型&nbsp;*/</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>private&nbsp;final&nbsp;Map&lt;Object,&nbsp;List&lt;Class&lt;?&gt;&gt;&gt;&nbsp;typesBySubscriber;</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>/**&nbsp;sticky&nbsp;event&nbsp;的存储的Map,&nbsp;key为event的class,&nbsp;value是具体事件的对象,&nbsp;每种类型的sticky&nbsp;event&nbsp;最多存储一个&nbsp;*/</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>private&nbsp;final&nbsp;Map&lt;Class&lt;?&gt;,&nbsp;Object&gt;&nbsp;stickyEvents;</span></span></span></div></pre></li>
+<li><p>SubscriberMethodFinder.java
+用于寻找消息处理者的方法, 里面有一个静态变量 <code>Map&lt;Class&lt;?&gt;, List&lt;SubscriberMethod&gt;&gt; METHOD_CACHE</code> 用于保存找到的消息处理这, 加快下一次查找过程</p>
+</li>
+<li><p>HandlerPoster.java
+<code>HandlerPoster</code> 本质是一个Handler, 使用主线程的Looper, 可以看一下初始化语句 <code>mainThreadPoster = new HandlerPoster(this, Looper.getMainLooper(), 10)</code>; 发送到主线程的消息, 实质都是用此发送一个Message, 然后在Handler#handleMessage中, 调用 Method#invoke(Object, Event);</p>
+</li>
+<li><p>AsyncPoster.java  BackgroundPoster.java
+名称已经很明显, 处理后台消息的2个类; 本质都是Runnable,  都从消息队列中获取消息, 然后在线程池中执行</p>
+</li>
+<li><p>PendingPostQueue.java
+消息存储的地方, 一个简单的链表结构</p>
+</li>
+<li><p>注册流程
+<code>register</code>后, 会通过SubscriberMethodFinder#findSubscriberMethods方法, 查找注册的类, 如果添加注解处理器, 会通过反射去查找; 查找后,将各个对应关系保存在Eventbus实例的成员变量; 并且检测是否有黏性消息, 有黏性消息,则立马执行</p>
+<p>post流程, 首先获取所在线程信息, 然后在 <code>Eventbus#subscriptionsByEventType</code>获取所有的消息处理者, 然后判断处理的线程, 分发到各个Poster去处理</p>
+</li>
+</ol></body>
+</html>
