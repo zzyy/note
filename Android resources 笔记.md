@@ -30,3 +30,6 @@
   - **PP** - the resources package id(00-02: system, 7f: application, 03-7e: reserved)
   - **TT** - the resource type id (eg. 'layout','string','attr' and etc.)
   - **NNNN** - the resource entry id
+
+10. 系统资源的初始化   
+    1. ZygoteInit.preload() -> ZygoteInit.preloadResources() -> Resources.getSystem() -> mResources.startPreloading()
