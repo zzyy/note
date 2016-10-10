@@ -19,3 +19,22 @@
 </extra_key></category></category></mime_type></data_uri></action>
 
 例如： adb shell am broadcast -a com.android.test --es test_string "this is test string" --ei test_int 100 --ez test_boolean true
+
+### adb shell getprop 获取属性
+
+### adb shell wm 获取屏幕相关信息
+- adb shell wm size 查看分辨率<br>
+  adb shell wm density 查看屏幕密度 > adb shell getprop ro.sf.lcd_density<br>
+  adb shell sysdump window displays
+
+
+### logcat
+      格式 [adb] logcat [<option>].. [<filter-spec>]..
+
+      [<filter-spec>] 过滤格式, 可以0个或者多个
+      具体为 <tag>[:priority]
+      '*' by itself means '*:D' and <tag> by itself means <tag>:V.
+
+      eg. adb logcat zy:W *:E   // 显示tag为zy并且等级>W的log 和任何等级>E的tag
+
+  参考  http://blog.csdn.net/xyz_lmn/article/details/7004710
