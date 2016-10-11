@@ -1,6 +1,7 @@
 ViewDragHelper
   settleCapturedViewAt 设置被移动view的位置; 一般用于在drag释放后, 将view设置到某个位置
   findTopChildUnder 找到指定坐标的最上层view
+  setMinVelocity  设置检测的最小速率;  设置后onViewReleased#onViewReleased回调, 如果速率达不到最小速率, 传入速率的值为0
 
 ViewDragHelper.Callback
   - tryCaptureView  判断哪些view可以被移动
