@@ -6,7 +6,7 @@ gradle基于groovy;
 
 ## Gradle  
 
-
+### 基本概念
   1. gradle中是按project来构建项目
   2. 每一个Project都必须设置一个build.gradle   
   3. 通常我们会把多个项目现在一个根文件夹下,组成一个Multi-project; 对于Multi-projec项目, 要在根目录放一个build.gradle和一个settings.gradle, setting.gradle通过`include`配置,引入各个子项目
