@@ -38,3 +38,16 @@
       eg. adb logcat zy:W *:E   // 显示tag为zy并且等级>W的log 和任何等级>E的tag
 
   参考  http://blog.csdn.net/xyz_lmn/article/details/7004710
+
+
+
+### monkey
+    -p 指定项目名, 可以指定一个或者多个包; 指定多个,需要多个 -p   
+    -v 发送事件个数
+    -s 伪随机数生成器的seed值; 如果用相同的seed值运行, 每次生成相同的事件序列
+    --throttle 相邻事件的延迟; 通过这个可以减缓Monkey执行的速度
+
+    eg. adb shell monkey -s 12 --throttle 450 -p com.android.cameraswitch -v 1000
+    这条操作, 将对com.android.cameraswitch发送1000伪随机操作
+
+  参考: http://www.jianshu.com/p/d5e1530cf152

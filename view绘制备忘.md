@@ -1,10 +1,12 @@
-自定义view
+### 自定义view
 一般用来扩展, 比较重要的毁掉
   - onFinishInflate
   - onSizeChanged
   - onMeasure
   - onLayout
   - onTouchEvent
+  - generateDefaultLayoutParams 生成被添加进ViewGroup的LayoutParams; 可以重写此方法, 生成自定义的LayoutParams
+  - getChildMeasureSpec 快速生成子view的测量值, 用于去测量子view; 调用子view的measure
 
 measure
   onMeasure 中确定view自身的测量大小 并完成子view的测量
