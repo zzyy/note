@@ -74,4 +74,76 @@ View的状态动画, 和view的状态背景相似
 
 参考[链接](http://blog.chengyunfeng.com/?p=1014)
 
-### Transtion Animation
+### Transtions 转场动画
+新的过渡动画,仍然只兼容api>21的版本
+示例demo可以参考 https://github.com/lgvalle/Material-Animations
+
+#### 过渡动画
+原先的过渡动画`Activity.overridePendingTransition`,只有进入,退出两种, 现在有了4种;
+
+分别为以下4种;
+EnterTransition <--> ReturnTransition
+ExitTransition <--> ReenterTransition
+
+假设Activity A 启动Activity B;    
+A退出时,触发ExitTransition; 跳转到B, 进入到B时, 触发EnterTransition;    
+从B点击返回键,退回到A时    
+B触发ReturnTransition, 返回到A时, 触发A的ReenterTransition
+
+目前支持的动画, 有Explode, Fade, Slide几种, 动画支持在主题中配置,和使用代码设置, 和原先的过渡动画相似
+
+在主题中配置动画示例
+	1. 创建动画文件
+		<?xml version="1.0" encoding="utf-8"?>
+		<slide xmlns:android="http://schemas.android.com/apk/res/"
+			android:duration="1000"/>
+	2. 在主题中使用属性引用动画文件
+		<item name="android:windowEnterTransition"></item>
+        <item name="android:windowExitTransition"></item>
+        <item name="android:windowReenterTransition"></item>
+        <item name="android:windowReturnTransition"></item>
+			
+手动配置示例
+		@Override
+		protected void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.activity_transition);
+			setupWindowAnimations();
+		}
+
+		private void setupWindowAnimations() {
+			Slide slide = TransitionInflater.from(this).inflateTransition(R.transition.activity_slide);
+			getWindow().setExitTransition(slide);
+		}
+		
+> 如果只配置EnterTransition,没有配置ReturnTransition, 在返回时, 将会把EnterTransition反过来运行一遍
+
+#### 共享元素的过渡动画
+1. 在主题中打开该功能, 如果使用的material design主题, 会默认打开
+	<style name="MaterialAnimations" parent="@style/Theme.AppCompat.Light.NoActionBar">
+		...
+		<item name="android:windowContentTransitions">true</item
+		...
+	</style>
+2. 设置共享view的transition name; 2个共享view的android:transitionName属性必须一样
+		<ImageView
+			android:id="@+id/small_blue_icon"
+			style="@style/MaterialAnimations.Icon.Small"
+			android:src="@drawable/circle"
+			android:transitionName="@string/blue_name" />
+3. 使用新的api构建动画并启动actiivity
+		blueIconImageView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(MainActivity.this, SharedElementActivity.class);
+
+				View sharedView = blueIconImageView;
+				String transitionName = getString(R.string.blue_name);
+
+				ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, sharedView, transitionName);
+				startActivity(i, transitionActivityOptions.toBundle());
+			}
+		});
+
+> 如果想要保持不同版本的代码一致, 可以使用v4包中的`ActivityCompat.startActivity`方法去启动activity
+
