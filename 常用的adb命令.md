@@ -18,7 +18,9 @@
 </extra_key></extra_string_value>
 </extra_key></category></category></mime_type></data_uri></action>
 
-例如： adb shell am broadcast -a com.android.test --es test_string "this is test string" --ei test_int 100 --ez test_boolean true
+例如： adb shell am broadcast -a com.android.test --es test_string "this is test string" --ei test_int 100 --ez test_boolean true      
+adb shell am start -a android.settings.APPLICATION_DEVELOPMENT_SETTINGS 
+com.android.settings com.android.settings.Settings$DevelopmentSettingsActivity
 
 ### adb shell getprop 获取属性
 
@@ -51,3 +53,9 @@
     这条操作, 将对com.android.cameraswitch发送1000伪随机操作
 
   参考: http://www.jianshu.com/p/d5e1530cf152
+
+
+### 查看apk的版本号信息等
+		aapt dump xxx.apk
+
+		
