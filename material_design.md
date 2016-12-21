@@ -61,8 +61,8 @@
 	- 子view跟随兄弟view变化而变化
 		和上面一样, 布局原先是有layout方法决定, 而在`CoordinatorLayout`中, 在layout的过程中, 会调用behavior中的方法,以方便自己调整布局
 
-> 从RecyclerView开始, View设计思想有所转变;  组合优于继承, 约定优于配置,体现的很明显    
-> 多组合而少继承; 推荐扩展指定的组件实现功能, 而不是通过自定义view去实现功能; eg: 使用behavior去控制CoordinatorLayout的事件分发;使用LayoutMananger去控制recyclerview的布局
+	> 从RecyclerView开始, View设计思想有所转变;  组合优于继承, 约定优于配置,体现的很明显    
+	> 多组合而少继承; 推荐扩展指定的组件实现功能, 而不是通过自定义view去实现功能; eg: 使用behavior去控制CoordinatorLayout的事件分发;使用LayoutMananger去控制recyclerview的布局
 
 
 #### 和AppbarLayout, CollapsingToolbarLayout 结合使用
@@ -246,3 +246,9 @@ B触发ReturnTransition, 返回到A时, 触发A的ReenterTransition
 
 > 如果想要保持不同版本的代码一致, 可以使用v4包中的`ActivityCompat.startActivity`方法去启动activity
 
+
+
+##### 参考
+https://developer.android.google.cn/training/material/index.html
+http://wiki.jikexueyuan.com/project/material-design/whatis-material-design/environment.html
+https://developer.android.google.cn/training/material/index.html
