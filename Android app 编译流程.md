@@ -16,6 +16,7 @@
 | --- | --- |
 
 ### 手动编译app文件
+
 #### 1. 使用AAPT编译生成R.java
 aapt的可执行命令,在${ANDROID_SDK_HOME}/build-tools/${build_tool_version}目录下;    
 执行命令: 
@@ -63,6 +64,7 @@ build\test.apk  -f .\build\classes.dex
 #### 8.apk对齐
 
 	 zipalign -f 4 ".\build\test_unsigned.apk" ".\build\test_signed.apk"
+
 
 
 参考链接
