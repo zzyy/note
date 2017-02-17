@@ -56,6 +56,14 @@ com.android.settings com.android.settings.Settings$DevelopmentSettingsActivity
 
 
 ### 查看apk的版本号信息等
-		aapt dump xxx.apk
-
+		aapt dump badging xxx.apk
+		
+### 多台设备时, 指定某台设置
+ 1. 通过adb devices命令获取所有online设备的serial number
+		# adb devices
+		List of devices attached
+		emulator-5566   host
+		M161000555      device
+ 2. 通过adb -s <serial number> cmd向设备发送adb命令
+		# adb -s M161000555 push M161000555 F:\
 		

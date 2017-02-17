@@ -1,18 +1,18 @@
-×Ô¼ºµÄÒ»µã±Ê¼Ç
+è‡ªå·±çš„ä¸€ç‚¹ç¬”è®°
 
-### ActivityµÄÆô¶¯
-Æ½Ê±µ÷ÓÃstartActivityÆô¶¯Ò»¸öActivity, µ÷ÓÃ·½·¨ºó, ·¢ÉúÁËÊ²Ã´, ActivityManagerServices×öÁËÊ²Ã´;
+### Activityçš„å¯åŠ¨
+å¹³æ—¶è°ƒç”¨startActivityå¯åŠ¨ä¸€ä¸ªActivity, è°ƒç”¨æ–¹æ³•å, å‘ç”Ÿäº†ä»€ä¹ˆ, ActivityManagerServicesåšäº†ä»€ä¹ˆ;
 
-Activity A Æô¶¯Activity B, ×ÜÌåÀ´Ëµ¿ÉÒÔ·ÖÎªÒ»ÏÂ¼¸¸ö²½Öè
-1. Ç°ÆÚµÄ²¿·ÖĞ£Ñé, È»ºóÍ¨ÖªAMSÀ´Æô¶¯Activity
-2. AMSÊÕµ½Æô¶¯ÏûÏ¢ºó, ÔÚ½øĞĞÒ»ÏÂĞ£Ñé, Í¬Ê±µ÷ÕûActivityÈÎÎñÕ»
-3. AMSÍ¨ÖªActivity AÔİÍ£, µ÷ÓÃÆäonPause·½·¨;
-3. AMSÍ¨ÖªActivity BËùÔÚµÄ½ø³ÌÈ¥Æô¶¯Activity, Èç¹û½ø³Ì²»´æÔÚ, »¹ÔÚ´´½¨Æä½ø³Ì(¼´Application)
-4. ActivityThread´´½¨Activity B ²¢Æô¶¯
+Activity A å¯åŠ¨Activity B, æ€»ä½“æ¥è¯´å¯ä»¥åˆ†ä¸ºä¸€ä¸‹å‡ ä¸ªæ­¥éª¤
+1. å‰æœŸçš„éƒ¨åˆ†æ ¡éªŒ, ç„¶åé€šçŸ¥AMSæ¥å¯åŠ¨Activity
+2. AMSæ”¶åˆ°å¯åŠ¨æ¶ˆæ¯å, åœ¨è¿›è¡Œä¸€ä¸‹æ ¡éªŒ, åŒæ—¶è°ƒæ•´Activityä»»åŠ¡æ ˆ
+3. AMSé€šçŸ¥Activity Aæš‚åœ, è°ƒç”¨å…¶onPauseæ–¹æ³•;
+3. AMSé€šçŸ¥Activity Bæ‰€åœ¨çš„è¿›ç¨‹å»å¯åŠ¨Activity, å¦‚æœè¿›ç¨‹ä¸å­˜åœ¨, è¿˜åœ¨åˆ›å»ºå…¶è¿›ç¨‹(å³Application)
+4. ActivityThreadåˆ›å»ºActivity B å¹¶å¯åŠ¨
 
 
-> AMSµ÷ÓÃActivity, ÊÇÍ¨¹ıIApplicationThread½Ó¿Ú,Ïòapp·¢ÏûÏ¢;  Ò»°ãÊÇµ÷ÓÃ scheduleXxx·½·¨, È»ºóÍ¨¹ıHandler·¢ËÍÏûÏ¢, ½ÓÏÂÀ´µ÷ÓÃ handleXxx·½·¨, È»ºóµ÷ÓÃperformXxx·½·¨, ÔÚÈ»ºó,µ÷ÓÃInstrumentationµÄcallActivityXxx·½·¨, ×îºóµ÷ÓÃActivityµÄperformXxx·½·¨, È»ºó»Øµ÷¸÷ÖÖonXxx·½·¨
-eg: Æô¶¯Activity;
+> AMSè°ƒç”¨Activity, æ˜¯é€šè¿‡IApplicationThreadæ¥å£,å‘appå‘æ¶ˆæ¯;  ä¸€èˆ¬æ˜¯è°ƒç”¨ scheduleXxxæ–¹æ³•, ç„¶åé€šè¿‡Handlerå‘é€æ¶ˆæ¯, æ¥ä¸‹æ¥è°ƒç”¨ handleXxxæ–¹æ³•, ç„¶åè°ƒç”¨performXxxæ–¹æ³•, åœ¨ç„¶å,è°ƒç”¨Instrumentationçš„callActivityXxxæ–¹æ³•, æœ€åè°ƒç”¨Activityçš„performXxxæ–¹æ³•, ç„¶åå›è°ƒå„ç§onXxxæ–¹æ³•
+eg: å¯åŠ¨Activity;
 ApplicationThread#scheduleLaunchActivity -> 
 ActivityThread#handleLaunchActivity -> 
 ActivityThread#performLaunchActivity ->
@@ -21,25 +21,30 @@ activity.performCreate ->
 activity.onCreate
 
 ### AMS
-1. ActivityManagerServicesÊÇÏµÍ³·şÎñ, ÔÚÏµÍ³Æô¶¯ºó, ¸Ã·şÎñ¾Í»áÆğÀ´; 
-2. Í¨³£ÔÚAppÖĞ, Í¨¹ıÏµÍ³Ìá¹©µÄActivityManagerµÄ½Ó¿ÚÈ¥µ÷ÓÃ;
-3. AMSºÍÆ½Ê±Ğ´µÄAIDLÒ»Ñù, CS¼Ü¹¹, ·şÎñ¶ËÊÇActivityManagerService, ÔÚActiviyThreadÖĞ, Í¨¹ıÆä´úÀíActivityManagerProxyÈ¥µ÷ÓÃ
+1. ActivityManagerServicesæ˜¯ç³»ç»ŸæœåŠ¡, åœ¨ç³»ç»Ÿå¯åŠ¨å, è¯¥æœåŠ¡å°±ä¼šèµ·æ¥; 
+2. é€šå¸¸åœ¨Appä¸­, é€šè¿‡ç³»ç»Ÿæä¾›çš„ActivityManagerçš„æ¥å£å»è°ƒç”¨;
+3. AMSå’Œå¹³æ—¶å†™çš„AIDLä¸€æ ·, CSæ¶æ„, æœåŠ¡ç«¯æ˜¯ActivityManagerService, åœ¨ActiviyThreadä¸­, é€šè¿‡å…¶ä»£ç†ActivityManagerProxyå»è°ƒç”¨
 
-![](./AMS_class.png)
+![](./pic/AMS_class.png)
 
-- ActivityManagerNative : ºÍÆ½Ê±ÓÃAIDLÉú³ÉµÄÀàÒ»Ñù, ÓĞÒ»¸öÄÚ²¿ÀàActivityManagerProxy, Í¨¹ıBinderºÍÔ¶³ÌµÄActivityManagerServiceÍ¨Ñ¶; ²¢ÇÒÓĞ¸ögetDefault·½·¨, Ìá¹©Ò»¸öIActivityManagerµÄµ¥Àı, Í¨¹ı´ËÈ¥ºÍAMSÍ¨Ñ¶;
-- ActivityManager : ÏµÍ³¶ÔÍâÌá¹©µÄAMSµ÷ÓÃ½Ó¿Ú; ÄÚ²¿Ö÷ÒªÊÇÍ¨¹ı ActivityManagerNative.getDefault»ñÈ¡ AMSµÄproxy¶ÔÏó, È»ºóÈ¥ºÍAMSÍ¨Ñ¶
-- ActivityService : AMSµÄ·şÎñ¶Ë
-	1. °üº¬ActivityStackSupervisor mStackSupervisor, Í¨¹ıÆäÈ¥¹ÜÀíÕû¸öActivityÈÎÎñÕ»;
-	2. °üº¬ArrayList<TaskRecord> mRecentTasks; ¹ÜÀí×Å×î½üÔËĞĞµÄ³ÌĞò
-	2. °üº¬ProcessMap<ProcessRecord> mProcessNames, ¹ÜÀíÕâËùÓĞµÄApplication;
-	3. Í¬Ê±Í¨¹ıIApplicationThreadºÍapp½øĞĞÍ¨Ñ¶, Í¨¹ıµ÷ÓÃ¿ØÖÆActiviyµÄÉúÃüÖÜÆÚ; 
+- ActivityManagerNative : å’Œå¹³æ—¶ç”¨AIDLç”Ÿæˆçš„ç±»ä¸€æ ·, æœ‰ä¸€ä¸ªå†…éƒ¨ç±»ActivityManagerProxy, é€šè¿‡Binderå’Œè¿œç¨‹çš„ActivityManagerServiceé€šè®¯; å¹¶ä¸”æœ‰ä¸ªgetDefaultæ–¹æ³•, æä¾›ä¸€ä¸ªIActivityManagerçš„å•ä¾‹, é€šè¿‡æ­¤å»å’ŒAMSé€šè®¯;
+- ActivityManager : ç³»ç»Ÿå¯¹å¤–æä¾›çš„AMSè°ƒç”¨æ¥å£; å†…éƒ¨ä¸»è¦æ˜¯é€šè¿‡ ActivityManagerNative.getDefaultè·å– AMSçš„proxyå¯¹è±¡, ç„¶åå»å’ŒAMSé€šè®¯
+- ActivityService : AMSçš„æœåŠ¡ç«¯
+	1. åŒ…å«ActivityStackSupervisor mStackSupervisor, é€šè¿‡å…¶å»ç®¡ç†æ•´ä¸ªActivityä»»åŠ¡æ ˆ;
+	2. åŒ…å«ArrayList<TaskRecord> mRecentTasks;![enter description here][1] ç®¡ç†ç€æœ€è¿‘è¿è¡Œçš„ç¨‹åº
+	2. åŒ…å«ProcessMap<ProcessRecord> mProcessNames, ç®¡ç†è¿™æ‰€æœ‰çš„Application;
+	3. åŒæ—¶é€šè¿‡IApplicationThreadå’Œappè¿›è¡Œé€šè®¯, é€šè¿‡è°ƒç”¨æ§åˆ¶Activiyçš„ç”Ÿå‘½å‘¨æœŸ; 
 	
-- ApplicationThread: ÆäÕûÌå½á¹¹ºÍAMSÀàËÆ; 
- 1. Æä·şÎñ¶ËApplicationThreadÔÚActivityThreadÖĞ, ¼´ÔÚappÖĞ; 
- 3. ÔÚappµ÷ÓÃAMSÊ±, »á°ÑApplicationThread¶ÔÓ¦µÄbinder´«µİ¹ıÈ¥
- 2. AMSÍ¨¹ıApplicationThreadProxyÓÉBinderµ÷ÓÃµ½app, ´Ó¶ø¿ØÖÆappµÄÉúÃüÖÜÆÚ;
+- ApplicationThread: å…¶æ•´ä½“ç»“æ„å’ŒAMSç±»ä¼¼; 
+ 1. å…¶æœåŠ¡ç«¯ApplicationThreadåœ¨ActivityThreadä¸­, å³åœ¨appä¸­; 
+ 3. åœ¨appè°ƒç”¨AMSæ—¶, ä¼šæŠŠApplicationThreadå¯¹åº”çš„binderä¼ é€’è¿‡å»
+ 2. AMSé€šè¿‡ApplicationThreadProxyç”±Binderè°ƒç”¨åˆ°app, ä»è€Œæ§åˆ¶appçš„ç”Ÿå‘½å‘¨æœŸ;
  
  -----
-ÀàÍ¼, »¹Ã»ÅªÍê, ÓĞÊ±¼äÔÙÀ´ÂıÂı²¹
+ç±»å›¾, è¿˜æ²¡å¼„å®Œ, æœ‰æ—¶é—´å†æ¥æ…¢æ…¢è¡¥
 https://www.processon.com/view/link/58a3105ee4b006dc8c0ce1f0
+
+
+
+
+

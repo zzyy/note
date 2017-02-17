@@ -99,4 +99,5 @@ gradle»ùÓÚgroovy;
 
 
 ²Î¿¼:
+http://groovy-lang.org/objectorientation.html
 http://kvh.io/cn/embrace-android-studio-groovy-gradle.html
