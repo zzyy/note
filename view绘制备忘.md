@@ -1,5 +1,5 @@
 ### 自定义view
-一般用来扩展, 比较重要的毁掉
+一般用来扩展, 比较重要的回调
   - onFinishInflate
   - onSizeChanged
   - onMeasure

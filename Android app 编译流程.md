@@ -5,8 +5,8 @@
 2. 使用 aidl.exe 将*.aidl文件转成 java 文件
 3. 编译项目源码, 使用 javac 生成 class 文件
 4. 使用 dx.bat 工具, 由 class 文件生成 dex文件
-5. 使用 aapt 生成资源包文件
-6. 使用 apkbuilder 将资源文件, classes.dex 等打包成未签名的 apk
+5. 使用 aapt 生成资源包文件; (此时已经生成一个.apk的文件, 但是不包含dex)
+6. 将classes.dex 等打包进上一步生成的文件,生成成未签名的 apk
 7. 使用 jarsigner 对 apk 进行签名
 8. 使用 zipalign 工具,对签名后的.apk文件进行对齐处理（不进行对齐处理是不能发布到Google Market的）
 
@@ -48,14 +48,15 @@ dx可执行命令,也在sdk的build-tools目录下;
 	
 #### 5.使用aapt生成资源包文件
 此步骤,会将资源文件打包,会将生成的resources.arsc, Manifest文件, 图片等其他文件打包进apk里面
+
 	aapt package -f -A .\src\main\assets -S .\src\main\res -M .\src\main\AndroidManifest.xml -I "D:\Android\adt-bundle-windows-x86_64-20140702\sdk\platforms\android-25\an
-droid.jar" -F .\build\test.apk
+	droid.jar" -F .\build\test.apk
 
 #### 6.将dex文件打包进apk
 由于apkbuilder工具已弃用，我们需要调用sdklib.jar 里面的com.android.sdklib.build.ApkBuilderMain类去调用.
 
 	java -classpath "D:\Android\adt-bundle-windows-x86_64-20140702\sdk\tools\lib\sdklib.jar" com.android.sdklib.build.ApkBuilderMain .\build\test_unsigned.apk -v -u -z .\
-build\test.apk  -f .\build\classes.dex
+	build\test.apk  -f .\build\classes.dex
 
 #### 7.签名
 

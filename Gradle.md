@@ -27,13 +27,27 @@
 
 
 ### 2.工作流程
-  具体可参考https://docs.gradle.org/current/userguide/build_lifecycle.html
+  具体可参考 https://docs.gradle.org/current/userguide/build_lifecycle.html
   1. Initialization, 初始化阶段    
       gradle支持单项目和 multi-project, 在这个流程中,gradle会判断是哪种项目类型,并且为每个项目生成'Project'实例;  一般我们的项目来说, 就是执行settings.gradle
   2. Configuration   
-      解析每个项目的buil.gradle, 确定项目的配置和各个task,及task之间的依赖关系
+      解析每个项目的buil.gradle, 确定项目的配置和各个task,及task之间的依赖关系   
+  
+	Configuration阶段完了后，整个build的project以及内部的Task关系就确定了。恩？前面说过，一个Project包含很多Task，每个Task之间有依赖关系。Configuration会建立一个有向图来描述Task之间的依赖关系。所以，我们可以添加一个HOOK，即当Task关系图建立好后，执行一些操作。
   3. Execution   
       这个没啥说的, 根据传进来的task-name 执行
 	  
- 对应到我们项目中, 执行的就是, 先执行根项目的Settings.gradle, 然后解析根项目的 build.gradle, 再依次解析子项目的 build.gradle; 最后执行指定的task;      
- 
+ 对应到我们项目中, 执行的就是, 先执行根项目的Settings.gradle, 然后解析根项目的 build.gradle, 再依次解析子项目的 build.gradle; 最后执行指定的task;  
+
+### 3.部分API    
+ 先贴网址   https://docs.gradle.org/current/dsl/
+
+Gradle的本质是执行groovy, groovy基于Java, 执行的时候, 最终会转换成为Java对象; 而Gradle主要有3种对象:
+
+- Gradle对象; 代表整个gradle结构, 整个执行过程中, 就一个Gradle对象
+- Project对象; 每一个build.gradle都会转化成为Project对象
+- Setting对象; 对象项目中的 Settings.grale
+
+
+### 查考
+http://www.infoq.com/cn/articles/android-in-depth-gradle
