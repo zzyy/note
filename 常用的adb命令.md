@@ -18,9 +18,12 @@
 </extra_key></extra_string_value>
 </extra_key></category></category></mime_type></data_uri></action>
 
-例如： adb shell am broadcast -a com.android.test --es test_string "this is test string" --ei test_int 100 --ez test_boolean true      
-adb shell am start -a android.settings.APPLICATION_DEVELOPMENT_SETTINGS 
-com.android.settings com.android.settings.Settings$DevelopmentSettingsActivity
+
+		adb shell am broadcast -a com.android.test --es test_string "this is test string" --ei test_int 100 --ez test_boolean true    
+		
+		adb shell am start -a android.settings.APPLICATION_DEVELOPMENT_SETTINGS 
+		          
+		adb shell am start -n com.android.settings/.DevelopmentSettings		//打开开发者选项
 
 ### adb shell getprop 获取属性
 
@@ -66,4 +69,8 @@ com.android.settings com.android.settings.Settings$DevelopmentSettingsActivity
 		M161000555      device
  2. 通过adb -s <serial number> cmd向设备发送adb命令
 		# adb -s M161000555 push M161000555 F:\
+
+
+### 获取最上层Activity
+`adb shell dumpsys activity | grep "mFocusedActivity"`
 		
