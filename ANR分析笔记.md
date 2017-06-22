@@ -7,8 +7,8 @@ Application Not Responding
 2. 机器本身的cpu, 内存, io繁忙, 无法及时响应
 
 根本原因还是在系统消息得不到响应造成的,盗用2张图来说明一下
-[](./pic/anr_reason_1.png)
-[](./pic/anr_reason_2.png)
+![](./pic/anr_reason_1.png)
+![](./pic/anr_reason_2.png)
 
 #### 类型
 Type | Method call | Log sample | time out
