@@ -25,12 +25,14 @@ BG 200
 // 线程名称,  线程优先级, 线程id, 线程状态
 "main" prio=5 tid=1 Blocked
   | group="main" sCount=1 dsCount=0 obj=0x74960ee8 self=0xb83b52f0
+    // 系统的线程id
   | sysTid=30752 nice=0 cgrp=default sched=0/0 handle=0xb6fcbbec
   | state=S schedstat=( 32407519095 10037462519 57602 ) utm=2867 stm=373 core=0 HZ=100
   | stack=0xbe26e000-0xbe270000 stackSize=8MB
   | held mutexes=
 ```
 一般从主线程看起, 确定主线程的状态, 线程的状态可以看[线程的基础](./多线程 -- 线程相关基础.md)
+![](./pic/anr_trace_1.png)
 
 #### 2.1 死锁
 ```
