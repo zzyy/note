@@ -25,6 +25,7 @@
 3. 渲染速度, Jank
     viewStub, merge, double layout taxation(RelativeLayout)
 
+
 ## 启动
 - 目的: 加快启动速度, 避免白屏
 - 工具: Systrace
