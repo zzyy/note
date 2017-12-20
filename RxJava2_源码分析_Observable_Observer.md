@@ -165,6 +165,9 @@ RxJavaPlugins.onAssembly 是一个用于hook的方法, 默认`onObservableAssemb
 2. 发送事件, 即直接调用 Observer的onNext方法;
 
 -----
+还有使用Observable.just, single 等方法创建的Observable, 都和create创建的类似, 一般都是创建一个具体的Observable对象, 在subscribeActual中创建一个对应的Observer对象, 将原始的Observer包装起来, 然后直接在包装类中, 调用原始Observer的onNext方法;
+
+-----
 到此基本分析已结束     
 绕了一圈, 发现发送和接收事件, 其实就是将Observable和Observer组装到一起, 然后直接调用onNext方法, 是不是有点大失所望; 不过作为观察者模式的一种, RxJava的核心在于数据流转换,和线程切换, 后面再讲;
 
