@@ -56,6 +56,7 @@ Observable的sunscribe方法, 最后执行的都是`subscribeActual`方法, 直�
 1. 由schduler创建对应的Worker
 2. 创建`ObserveOnObserver`
 3. 执行当前Observable持有的Observable的subscribe方法; (此代码中, 执行的是`ObservableSubscribeOn.subscribe`)
+4. `source.subscribe`的逻辑, 同第一篇一样,  最后是在当前线程, 直接调用的`ObserveOnObserver.onNext`方法
 
 ### 3. ObserveOnObserver
 `ObservableObserveOn`也是Observer的子类, 同时包含一个Observer, 仍然是装饰模式;      

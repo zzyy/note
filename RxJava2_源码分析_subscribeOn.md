@@ -81,7 +81,7 @@ SubscribeOnObserver对被装饰类没有额外增加功能, 仅仅是一个封�
 
 `ObservableSubscribeOn`是Observable的子类, 同时是装饰模式, 内部持有一个Observable, source是被包装的Observable, 在此处的代码中, source即是`ObservableCreater`, parent是`SubscribeOnObserver`, source.subscribe即和第一篇中的逻辑一样了;    
 
-##### scheduler.scheduleDirect
+##### 2.6 scheduler.scheduleDirect
 
     @NonNull
     public Disposable scheduleDirect(@NonNull Runnable run) {
@@ -106,5 +106,55 @@ SubscribeOnObserver对被装饰类没有额外增加功能, 仅仅是一个封�
 3. 创建DisposeTask, 将需要运行的runnable对象, 封装成disposable对象, 用于执行取消操作;
 4. 将封装后的runnable提交给worker去运行;
 
-此处的scheduler由`Schedulers.single()`生成, 实际是一个`SingleScheduler`;    
+此处的scheduler由`Schedulers.single()`生成, 实际是一个`SingleScheduler`;   
+
+###### 2.6.1  Worker.schedule()
+直接看 `SingleScheduler`的代码
+
+#######  Schedulers.createWorker 创建Worker; 获取公共的线程池, 创建Worker
+
+        public Worker createWorker() {
+            return new ScheduledWorker(executor.get());
+        }
+
+####### Worker.scheduler
+
+        public Disposable schedule(@NonNull Runnable run, long delay, @NonNull TimeUnit unit) {
+            if (disposed) {
+                return EmptyDisposable.INSTANCE;
+            }
+
+            Runnable decoratedRun = RxJavaPlugins.onSchedule(run);
+
+            ScheduledRunnable sr = new ScheduledRunnable(decoratedRun, tasks);
+            tasks.add(sr);
+
+            try {
+                Future<?> f;
+                if (delay <= 0L) {
+                    f = executor.submit((Callable<Object>)sr);
+                } else {
+                    f = executor.schedule((Callable<Object>)sr, delay, unit);
+                }
+
+                sr.setFuture(f);
+            } catch (RejectedExecutionException ex) {
+                dispose();
+                RxJavaPlugins.onError(ex);
+                return EmptyDisposable.INSTANCE;
+            }
+
+            return sr;
+        }
+
+1. 封装传入的`runnable`对象, 将其封装成`ScheduledRunnable`对象
+2. 提交给线程池运行, `ScheduledRunnable`本身是一个`Callable`对象, 可以用于取消执行
+
+上述提交给线程池运行的流程, 最终封装的运行的`run`方法, 其实还是最先封装的`SubscribeTask`中的` source.subscribe(parent);`这一句代码;       
+`SubscribeTask`本身对应的`runnable`被一次次传递封装, 最后给线程池运行;        
+`source.subscribe(parent);`中, 上面说到是一个装饰模式, 运行的还是`Observable.subscribeActual`方法, 最后的运行逻辑和上一篇相同;     
+最后会调到`ObservableSubscribeOn.onNext`方法, 内部没做处理, 装饰模式,调用上一级的`onNext`方法
+
+
+
 
