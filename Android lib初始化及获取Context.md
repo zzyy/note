@@ -1,11 +1,11 @@
-Android library³õÊ¼»¯¼°»ñÈ¡Context
+Android libraryåˆå§‹åŒ–åŠèŽ·å–Context
 -------
-### ¿ª·¢ÖÐÓöµ½µÄÎÊÌâ
-¿ª·¢libraryÏîÄ¿Ê±, ¾­³£ÐèÒª»ñÈ¡Context¶ÔÏó, ²¢ÇÒÐèÒªÔÚApplicationÖÐ³õÊ¼»¯, Á÷³Ì±È½Ï·±Ëö, ÄÜ·ñÔÚlibÖÐ²»ÒÀÀµÍâ²¿´«Èë,Ö÷¶¯»ñÈ¡µ½Context¶ÔÏóÄØ;
+### å¼€å‘ä¸­é‡åˆ°çš„é—®é¢˜
+å¼€å‘libraryé¡¹ç›®æ—¶, ç»å¸¸éœ€è¦èŽ·å–Contextå¯¹è±¡, å¹¶ä¸”éœ€è¦åœ¨Applicationä¸­åˆå§‹åŒ–, æµç¨‹æ¯”è¾ƒç¹ç, èƒ½å¦åœ¨libä¸­ä¸ä¾èµ–å¤–éƒ¨ä¼ å…¥,ä¸»åŠ¨èŽ·å–åˆ°Contextå¯¹è±¡å‘¢;
 
-#### ½â¾ö°ì·¨
-ÔÚlibÖÐÉùÃ÷Ò»¸öprovider, ¶øÔÚproviderµÄonCreate·½·¨ÖÐ¾Í¿ÉÒÔ»ñÈ¡Context¶ÔÏó, ¿ÉÒÔ±£´æÆðÀ´, ÔÚlibÏîÄ¿ÖÐÊ¹ÓÃ;               
-Í¬Ê±providerµÄ³õÊ¼»¯, ÊÇÔÚApplication³õÊ¼»¯Ö®ºó, ApplicationµÄonCreate·½·¨µ÷ÓÃÖ®Ç°, ´ËÊ±Ò²¿ÉÒÔÓÃÓÚÈ¥³õÊ¼»¯lib¿â;        
+#### è§£å†³åŠžæ³•
+åœ¨libä¸­å£°æ˜Žä¸€ä¸ªprovider, è€Œåœ¨providerçš„onCreateæ–¹æ³•ä¸­å°±å¯ä»¥èŽ·å–Contextå¯¹è±¡, å¯ä»¥ä¿å­˜èµ·æ¥, åœ¨libé¡¹ç›®ä¸­ä½¿ç”¨;               
+åŒæ—¶providerçš„åˆå§‹åŒ–, æ˜¯åœ¨Applicationåˆå§‹åŒ–ä¹‹åŽ, Applicationçš„onCreateæ–¹æ³•è°ƒç”¨ä¹‹å‰, æ­¤æ—¶ä¹Ÿå¯ä»¥ç”¨äºŽåŽ»åˆå§‹åŒ–libåº“;        
 
-ÁíÒ»¸ö·½·¨¾ÍÊÇÍ¨¹ý·´Éäµ÷ÓÃActivityThread, »ñÈ¡ mInitialApplication ±äÁ¿, ÒòÎªÏµÍ³°æ±¾±ä»¯, ÓÐ·çÏÕ, ÐèÒª×Ô¼º×ö¼æÈÝ;       
+å¦ä¸€ä¸ªæ–¹æ³•å°±æ˜¯é€šè¿‡åå°„è°ƒç”¨ActivityThread, èŽ·å– mInitialApplication å˜é‡, å› ä¸ºç³»ç»Ÿç‰ˆæœ¬å˜åŒ–, æœ‰é£Žé™©, éœ€è¦è‡ªå·±åšå…¼å®¹;       
 
