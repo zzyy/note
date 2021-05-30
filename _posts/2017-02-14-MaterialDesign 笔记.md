@@ -1,3 +1,8 @@
+---
+title: MaterialDesign 笔记
+createAt: 2017-02-14
+---
+
 ### TabLayout和TabLayout.Tab
 1. 使用场景
 	在ViewPager的上方，通常我们都会放一个标签指示器与ViewPager进行联动; 以前通常使用开源的框架,或者自定义view;现在google提供的解决办法
