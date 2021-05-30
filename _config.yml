@@ -1,4 +1,7 @@
 theme: jekyll-theme-minimal
 
+# markdown
+markdown: kramdown
+
 title: Note
-description: 日常技术笔记
+description: tech note for simon
